@@ -3,6 +3,7 @@ package com.example.first.controllers;
 import com.example.first.model.Products;
 import com.example.first.model.User;
 import com.example.first.repository.ProductRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +32,13 @@ public class ProductsController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Products> create(@RequestBody Products product) {
+    public ResponseEntity<Products> create(@Valid @RequestBody Products product) {
         Products newProduct = productRepository.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Products> update(@PathVariable Long id, @RequestBody Products products) {
+    public ResponseEntity<Products> update(@PathVariable Long id,@Valid @RequestBody Products products) {
         Products product = productRepository.findById(id).orElse(null);
         if (product == null) {
             return ResponseEntity.notFound().build();
